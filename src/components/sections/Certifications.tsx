@@ -28,7 +28,7 @@ const certs: Cert[] = [
       'Hands on projects using Google Developer tools.',
       'Exposure to real-world applications of AI across industries.',
     ],
-    image: '${import.meta.env.BASE_URL}cert-google.png',
+    image: `${import.meta.env.BASE_URL}cert-google.png`,
   },
   {
     title: 'Java Full Stack Development Internship',
