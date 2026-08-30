@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Section from '../Section';
 import { Award, Briefcase, X, ZoomIn } from 'lucide-react';
 

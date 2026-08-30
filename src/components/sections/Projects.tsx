@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Section from '../Section';
 import StickyPhoto from '../StickyPhoto';
 import { Bot, Activity } from 'lucide-react';

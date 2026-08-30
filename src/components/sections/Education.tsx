@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Section from '../Section';
 import { GraduationCap, Calendar, Award } from 'lucide-react';
 

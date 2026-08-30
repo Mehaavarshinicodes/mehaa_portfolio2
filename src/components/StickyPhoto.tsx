@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 interface StickyPhotoProps {
   /** Path/URL to the photo. Leave undefined to show a placeholder. */

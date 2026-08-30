@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Section from '../Section';
 import { Lock, X } from 'lucide-react';
 

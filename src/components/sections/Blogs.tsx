@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Section from '../Section';
 import { ArrowUpRight } from 'lucide-react';
 

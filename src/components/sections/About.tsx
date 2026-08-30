@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Section from '../Section';
 import StickyPhoto from '../StickyPhoto';
 import { Mail } from 'lucide-react';

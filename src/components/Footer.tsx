@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Mail, Send, ArrowUp, Rss } from 'lucide-react';
 
 const EMAIL = 'mehaavarshini@gmail.com';
