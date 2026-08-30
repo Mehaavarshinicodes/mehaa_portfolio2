@@ -8,7 +8,7 @@ export default function About() {
     <Section id="about" title="About Me">
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-10">
         <div className="w-full flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-          <StickyPhoto src="/images/about-photo.jpeg" />
+          <StickyPhoto src={`${import.meta.env.BASE_URL}images/about-photo.jpeg`} />
 
           <div className="flex-1 flex flex-col items-center md:items-start gap-5 text-center md:text-left">
             <div className="p-7 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm relative group overflow-hidden w-full">

@@ -21,9 +21,9 @@ const weekDetails: Record<number, WeekDetail> = {
   0: {
     subtitle: 'at PRICE Protosem – Key Highlights',
     photos: [
-      { src: '/protosem/week0-forge-lab.jpg', alt: 'Working session at the FORGE Innovation & Ventures lab' },
-      { src: '/protosem/week0-team.jpg', alt: 'With teammates in FORGE polo tees' },
-      { src: '/protosem/week0-yep-kickoff.jpg', alt: 'YEP Kickoff Batch 2026 session screen' },
+      { src: '${import.meta.env.BASE_URL}protosem/week0-forge-lab.jpg', alt: 'Working session at the FORGE Innovation & Ventures lab' },
+      { src: '${import.meta.env.BASE_URL}protosem/week0-team.jpg', alt: 'With teammates in FORGE polo tees' },
+      { src: '${import.meta.env.BASE_URL}protosem/week0-yep-kickoff.jpg', alt: 'YEP Kickoff Batch 2026 session screen' },
     ],
     sections: [
       {
