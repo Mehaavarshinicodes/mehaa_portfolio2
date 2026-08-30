@@ -44,7 +44,7 @@ const certs: Cert[] = [
       'Core & Advanced Java, Spring Framework, Spring Boot, and Hibernate ORM.',
       'MySQL, Git & version control.',
     ],
-    image: '${import.meta.env.BASE_URL}cert-eduskills.png',
+    image: `${import.meta.env.BASE_URL}cert-eduskills.png`,
   },
   {
     title: 'AWS Academy Graduate – Data Engineering',
@@ -59,7 +59,7 @@ const certs: Cert[] = [
       'AWS Academy Data Engineering training badge.',
       'Digital badge verified on Credly.',
     ],
-    image: '${import.meta.env.BASE_URL}cert-aws.png',
+    image: `${import.meta.env.BASE_URL}cert-aws.png`,
   },
 ];
 
