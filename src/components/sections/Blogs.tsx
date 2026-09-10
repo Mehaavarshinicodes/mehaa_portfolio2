@@ -4,7 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 const blogs = [
   {
-    title: 'Price? Protosem – The Beginning',
+    title: 'Price Protosem – The Beginning',
     description: 'A reflective piece on the start of my Protosem journey — exploring the highs, the uncertainties, and what it means to build something from scratch.',
     platform: 'Substack',
     link: 'https://amimehaa.substack.com/p/price-protosem-the-beginning',
