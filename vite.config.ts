@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 export default defineConfig({
-  base: "/mehaa_portfolio/",
+  base: "/mehaa_portfolio2/",
   plugins: [react()],
   resolve: {
     alias: {
