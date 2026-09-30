@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import type { ElementType } from 'react';
 import Section from '../Section';
 import { Lock, X, ArrowRight } from 'lucide-react';
 
@@ -11,6 +12,12 @@ interface Photo {
   alt: string;
   /** Diagrams / wide images: shown large, full width of the panel */
   wide?: boolean;
+}
+
+interface Model3D {
+  src: string;
+  alt: string;
+  caption?: string;
 }
 
 interface WeekTable {
@@ -29,6 +36,8 @@ interface WeekSection {
   table?: WeekTable;
   /** Photos shown inline, right below this section's content */
   photos?: Photo[];
+  /** Interactive, rotatable 3D models (.glb) shown after the photos */
+  models?: Model3D[];
 }
 
 interface WeekDetail {
@@ -439,6 +448,7 @@ const weekDetails: Record<number, WeekDetail> = {
         heading: 'Step 2 — Importing into Bambu Studio',
         level: 3,
         paragraphs: ['I opened the model in Bambu Studio, the slicing software used to prepare the model for printing.'],
+        models: [{ src: img('week6-3d-model.glb'), alt: 'Interactive 3D model of my print' }],
       },
       {
         heading: 'Step 3 — Model Preparation',
@@ -460,6 +470,7 @@ const weekDetails: Record<number, WeekDetail> = {
         level: 3,
         paragraphs: ['Through this activity, I understood the complete workflow of digital 3D model → STL → slicing → supports → printer-ready file, and how design orientation and slicing parameters affect the final physical output.'],
         photos: [{ src: img('week6-3dp-bambu-studio.jpeg'), alt: 'Model prepared on the build plate in Bambu Studio', wide: true }],
+        
       },
 
       {
@@ -711,6 +722,41 @@ function InlinePhotos({ photos }: { photos: Photo[] }) {
   );
 }
 
+const ModelViewerTag = 'model-viewer' as unknown as ElementType;
+
+/** Rotatable 3D model (.glb) using Google's <model-viewer> web component */
+function ModelViewer({ models }: { models: Model3D[] }) {
+  // Load the web component only when a 3D model is actually shown
+  useEffect(() => {
+    import('@google/model-viewer');
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center gap-6 py-4">
+      {models.map((m) => (
+        <figure
+          key={m.src}
+          className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/5 to-black/30 shadow-xl"
+        >
+          <ModelViewerTag
+            src={m.src}
+            alt={m.alt}
+            camera-controls=""
+            auto-rotate=""
+            touch-action="pan-y"
+            shadow-intensity="1"
+            exposure="1"
+            style={{ display: 'block', width: '100%', height: 'min(75vh, 640px)', minHeight: '360px', background: 'transparent' }}
+          />
+          <figcaption className="px-4 py-3 text-center text-xs text-gray-400 font-light">
+            {m.caption ?? 'Drag to rotate · scroll or pinch to zoom'}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
 function FlowChain({ steps }: { steps: string[] }) {
   return (
     <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
@@ -816,6 +862,8 @@ function WeekDetailPanel({ week, detail, onClose }: { week: number; detail: Week
             {section.table && <DataTable table={section.table} />}
 
             {section.photos && <InlinePhotos photos={section.photos} />}
+
+            {section.models && <ModelViewer models={section.models} />}
           </div>
         ))}
       </div>
