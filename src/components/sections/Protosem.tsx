@@ -459,7 +459,21 @@ const weekDetails: Record<number, WeekDetail> = {
         heading: 'Learning Outcome',
         level: 3,
         paragraphs: ['Through this activity, I understood the complete workflow of digital 3D model → STL → slicing → supports → printer-ready file, and how design orientation and slicing parameters affect the final physical output.'],
-        photos: [{ src: img('week6-3dp-bambu-studio.png'), alt: 'Model prepared on the build plate in Bambu Studio', wide: true }],
+        photos: [{ src: img('week6-3dp-bambu-studio.jpeg'), alt: 'Model prepared on the build plate in Bambu Studio', wide: true }],
+      },
+
+      {
+        heading: 'Bambu Lab H2S — Specifications',
+        photos: [
+          { src: img('week6-bambu-h2s-specs.png'), alt: 'Bambu Lab H2S specifications', wide: true },
+          { src: img('week6-bambu-h2s-working.jpg'), alt: 'Operating the Bambu Lab H2S at FORGE' },
+        ],
+      },
+      {
+        heading: 'PLA Filament — Specifications',
+        photos: [
+          { src: img('week6-pla-filament-specs.png'), alt: 'PLA filament specifications', wide: true },
+        ],
       },
 
       // ───────────────────────── LASER CUTTING ─────────────────────────
