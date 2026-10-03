@@ -537,19 +537,17 @@ const weekDetails: Record<number, WeekDetail> = {
             level: 2,
             paragraphs: [
               'The Bambu Studio slicing result provided an estimated total print time of 1 h 31 min and an estimated total filament weight of 25.27 g. The model itself accounted for 24.80 g and the support material accounted for approximately 0.47 g.',
+              'A final comparison between estimated and actual material weight requires the finished object to be weighed. The difference should be recorded rather than estimated.',
             ],
             table: {
               headers: ['Measurement', 'Estimated / recorded value', 'Actual value', 'Observation'],
               rows: [
                 ['Print time', '1 h 31 min', '-', 'Compare the slicer estimate with the printer\'s actual completed time.'],
-                ['Total material', '25.27 g', '24.05g', 'Includes approximately 24.80 g model material and 0.47 g support material.'],
+                ['Total material', '25.27 g', '24.05 g', 'The actual measured weight was lower than the slicer estimate.'],
                 ['Model material', '24.80 g', '—', 'Slicer estimate for the printed model.'],
                 ['Support material', '0.47 g', '—', 'Slicer estimate for generated support.'],
               ],
             },
-            paragraphs: [
-              'A final comparison between estimated and actual material weight requires the finished object to be weighed. The difference should be recorded rather than estimated.',
-            ],
           },
           {
             heading: '9. Final Result',
