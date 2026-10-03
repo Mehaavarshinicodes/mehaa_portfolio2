@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { ElementType } from 'react';
+import type { ElementType, ReactNode } from 'react';
 import Section from '../Section';
 import { Lock, X, ArrowRight } from 'lucide-react';
 
@@ -22,7 +22,7 @@ interface Model3D {
 
 interface WeekTable {
   headers: string[];
-  rows: string[][];
+  rows: (string | ReactNode)[][];
 }
 
 interface WeekSection {
@@ -42,7 +42,12 @@ interface WeekSection {
 
 interface WeekDetail {
   subtitle: string;
-  sections: WeekSection[];
+  sections?: WeekSection[];
+  tabs?: {
+    id: string;
+    label: string;
+    sections: WeekSection[];
+  }[];
   /** Optional photos shown at the top of the panel (used by weeks 0-3) */
   photos: Photo[];
 }
@@ -355,302 +360,502 @@ const weekDetails: Record<number, WeekDetail> = {
       },
     ],
   },
-  6: {
-    subtitle: 'Digital Fabrication — 3D Printing & Laser Cutting',
-    photos: [], // Week 6 photos are placed inline inside the sections below
-    sections: [
+6: {
+    subtitle: 'Digital Fabrication — Laser Cutting & 3D Printing',
+    photos: [],
+    tabs: [
       {
-        paragraphs: [
-          'Week 6 introduced me to digital fabrication, particularly 3D printing and laser cutting. I learned how a digital design can be converted into a physical object using computer-controlled manufacturing processes.',
-          'The week focused on understanding the complete workflow — from preparing a digital model to configuring the manufacturing machine and producing the final physical object.',
-        ],
-      },
+        id: '3d-printing',
+        label: '3D Printing',
+        sections: [
+          {
+            paragraphs: [
+              'Week 6 introduced me to digital fabrication, particularly 3D printing. I learned how a digital design can be converted into a physical object using computer-controlled manufacturing processes.',
+              'The week focused on understanding the complete workflow — from preparing a digital model to configuring the manufacturing machine and producing the final physical object.',
+            ],
+          },
+          { heading: 'What is 3D Printing?', level: 1 },
+          {
+            paragraphs: [
+              '3D printing is an additive manufacturing process in which a physical object is created by depositing or solidifying material layer by layer based on a digital 3D model.',
+              'Unlike traditional manufacturing methods that remove material from a larger block, 3D printing adds material only where it is required.',
+            ],
+          },
+          {
+            heading: 'Stages of 3D Printing',
+            photos: [{ src: img('week6-3dp-stages.png'), alt: 'Stages of 3D printing: concept, 3D CAD design, STL file, G-code, printing, post-processing', wide: true }],
+          },
+          {
+            heading: 'Types of 3D Printing',
+            photos: [{ src: img('week6-3dp-types.jpeg'), alt: 'Types of 3D printing: FDM, SLA, DLP, SLS', wide: true }],
+          },
+          {
+            bullets: [
+              { text: 'FDM — Fused Deposition Modeling', subBullets: ['A thermoplastic filament is melted and deposited through a nozzle layer by layer. Common materials include PLA, ABS, and PETG.'] },
+              { text: 'SLA — Stereolithography', subBullets: ['Liquid photopolymer resin is selectively cured using a light source. Its key advantage is high detail and smooth surface finish.'] },
+              { text: 'SLS — Selective Laser Sintering', subBullets: ['A laser selectively fuses powdered material to create the object. A key advantage is that complex geometries can be produced without traditional support structures.'] },
+              { text: 'DLP — Digital Light Processing', subBullets: ['A projected light source cures an entire layer of resin simultaneously.'] },
+            ],
+          },
+          {
+            heading: 'Manufacturing Process of 3D Printing',
+            paragraphs: [
+              '3D printing is an additive manufacturing process. In FDM printing, the filament is heated until it becomes sufficiently soft and is extruded through a nozzle. The printer deposits the material along the paths defined by the G-code. Once one layer is completed, the print head or build platform moves to the next layer.'
+            ],
+            photos: [{ src: img('week6-3dp-process.png'), alt: 'Manufacturing process of 3D printing', wide: true }],
+          },
+          {
+            heading: 'Advantages & Disadvantages of 3D Printing',
+            table: {
+              headers: ['Advantages', 'Disadvantages'],
+              rows: [
+                ['Enables rapid prototyping', 'Generally slower than mass-production methods'],
+                ['Can produce complex geometries', 'Surface finish may require post-processing'],
+                ['Supports customized designs', 'Material selection depends on the printer'],
+                ['Produces less material waste', 'Parts can have weaker layer-to-layer strength'],
+                ['Easy to modify and reproduce designs', 'Large objects may require long printing times'],
+                ['Suitable for small-batch production', 'Printer and material costs can be high'],
+                ['Allows physical testing of digital designs', 'Print quality depends heavily on settings and calibration'],
+              ],
+            },
+          },
+          {
+            heading: 'Limitations of 3D Printing',
+            table: {
+              headers: ['Limitation', 'Description'],
+              rows: [
+                ['Build volume', 'The printer limits the maximum size of the object.'],
+                ['Printing orientation', 'Orientation affects strength, supports, and print quality.'],
+                ['Overhangs', 'Some geometries require support structures.'],
+                ['Layer lines', 'Visible layers may affect surface finish.'],
+                ['Material limitations', 'Different printers support different materials.'],
+                ['Printing time', 'Complex or large models can take several hours.'],
+              ],
+            },
+          },
 
-      // ───────────────────────── 3D PRINTING ─────────────────────────
-      { heading: '3D Printing', level: 1 },
-      {
-        heading: 'What is 3D Printing?',
-        paragraphs: [
-          '3D printing is an additive manufacturing process in which a physical object is created by depositing or solidifying material layer by layer based on a digital 3D model.',
-          'Unlike traditional manufacturing methods that remove material from a larger block, 3D printing adds material only where it is required.',
-        ],
+          { heading: 'My Work', level: 1 },
+          
+          {
+            heading: '1. Printer Details',
+            level: 2,
+            table: {
+              headers: ['Specification', 'Recorded value'],
+              rows: [
+                ['Make', 'Bambu Lab'],
+                ['Model', 'H2S'],
+                ['Build volume', '340 × 320 × 340 mm³ (manufacturer specification)'],
+                ['Nozzle size used', '0.4 mm'],
+                ['Printing technology', 'Fused Deposition Modeling (FDM)'],
+                ['Material used', 'PLA'],
+              ],
+            },
+            photos: [{ src: img('Picture11.jpg'), alt: 'Bambu Lab H2S 3D printer used for the activity.' }],
+          },
+          {
+            heading: '2. Slicer & Material',
+            level: 2,
+            table: {
+              headers: ['Parameter', 'Details'],
+              rows: [
+                ['Slicer/software', 'Bambu Studio'],
+                ['Printer profile', 'Bambu Lab H2S'],
+                ['Nozzle', '0.4 mm'],
+                ['Material', 'White PLA filament'],
+                ['Model format', 'STL'],
+                ['Model source', 'Printables'],
+              ],
+            },
+          },
+          {
+            heading: '3. Printer Limits & Capabilities',
+            level: 2,
+            paragraphs: [
+              'The practical test demonstrated that the H2S could produce an articulated model with multiple small, connected geometric features. The articulated octopus required the model to be oriented and prepared carefully in the slicer, and supports were enabled in the supplied slicing setup. The use of a 0.4 mm nozzle provided the basis for producing the object\'s repeated articulated details while maintaining a practical print time.',
+            ],
+            bullets: [
+              'Capability demonstrated: printing a complex articulated object as a physical prototype.',
+              'Capability demonstrated: handling curved and repeated geometric features.',
+              'Capability demonstrated: using slicer-generated support structures where required.',
+              'Practical limitation: fine articulated features require suitable layer height, nozzle size and print orientation.',
+              'Practical limitation: support material can increase material usage and post-processing requirements.',
+            ],
+          },
+          {
+            heading: '4. Why the Object Cannot Be Made Subtractively',
+            level: 2,
+            bullets: [
+              'The articulated octopus contains complex curved surfaces, internal clearances and multiple moving sections that are designed to print as an assembled articulated structure.',
+              'Conventional subtractive processes such as milling or drilling would require cutting material away with tools that have limited access to enclosed and closely spaced regions.',
+              'Producing the same geometry as one articulated print would therefore be difficult and inefficient using conventional subtractive manufacturing.',
+              'Additive manufacturing can build the geometry layer by layer and can create the required clearances and complex shapes directly from the digital model.',
+            ],
+          },
+          {
+            heading: '5. STL Definition',
+            level: 2,
+            paragraphs: [
+              'STL (STereoLithography) is a common 3D model file format used in additive manufacturing. It represents the outer surface of a 3D object as a triangular mesh. The curved and complex surfaces of the model are approximated using many small triangles. A slicer can interpret this surface mesh and convert it into the individual layers and toolpaths required by the 3D printer. STL is widely used because it provides a simple, commonly supported representation of a model\'s surface geometry for the slicing workflow.',
+            ],
+          },
+          {
+            heading: '6. Selected STL File',
+            level: 2,
+            paragraphs: [
+              'The selected model was an articulated octopus obtained from Printables. I selected it because I had seen articulated 3D-printed objects on the internet and had wanted to make one myself. The model was supplied as an STL file and imported into Bambu Studio for preparation.',
+            ],
+            photos: [{ src: img('Picture12.png'), alt: 'Articulated octopus STL selected for 3D printing.' }],
+          },
+          {
+            heading: '7. Slicer Settings',
+            level: 2,
+            table: {
+              headers: ['Setting', 'Actual recorded value'],
+              rows: [
+                ['Nozzle temperature', '220 C'],
+                ['Bed temperature', '55 C'],
+                ['Layer height', '0.20 mm'],
+                ['Infill percentage', '15%'],
+                ['Infill pattern', 'Grid'],
+                ['Wall / shell count', '2 walls'],
+                ['Print speed', 'Standard (@BBL H2S 0.20mm Profile)'],
+                ['Supports', 'Enabled – Auto tree supports'],
+                ['Adhesion type', 'Outer brim'],
+                ['Brim width', '5 mm'],
+                ['Nozzle diameter', '0.4 mm'],
+              ],
+            },
+            photos: [{ src: img('Picture13.png'), alt: 'Bambu Studio settings used to prepare the articulated octopus print.' }],
+          },
+          {
+            heading: '3D Model View',
+            level: 2,
+            models: [{ src: img('week6-3d-model.glb'), alt: 'Interactive 3D model of my print', caption: 'Interactive 3D Model: Articulated Octopus' }]
+          },
+          {
+            heading: '8. Print Time & Material Weight',
+            level: 2,
+            paragraphs: [
+              'The Bambu Studio slicing result provided an estimated total print time of 1 h 31 min and an estimated total filament weight of 25.27 g. The model itself accounted for 24.80 g and the support material accounted for approximately 0.47 g.',
+            ],
+            table: {
+              headers: ['Measurement', 'Estimated / recorded value', 'Actual value', 'Observation'],
+              rows: [
+                ['Print time', '1 h 31 min', '-', 'Compare the slicer estimate with the printer\'s actual completed time.'],
+                ['Total material', '25.27 g', '24.05g', 'Includes approximately 24.80 g model material and 0.47 g support material.'],
+                ['Model material', '24.80 g', '—', 'Slicer estimate for the printed model.'],
+                ['Support material', '0.47 g', '—', 'Slicer estimate for generated support.'],
+              ],
+            },
+            paragraphs: [
+              'A final comparison between estimated and actual material weight requires the finished object to be weighed. The difference should be recorded rather than estimated.',
+            ],
+          },
+          {
+            heading: '9. Final Result',
+            level: 2,
+            paragraphs: [
+              'The final print was an articulated octopus produced in white PLA. The object demonstrates the use of additive manufacturing to create a complex articulated form directly from an STL model.',
+            ],
+            photos: [
+              { src: img('Picture14.jpg'), alt: 'Final articulated octopus printed in white PLA.' },
+              { src: img('Picture15.jpg'), alt: 'Observing the 3d printing machine' }
+            ],
+          },
+          {
+            heading: '10. Source Files',
+            level: 2,
+            table: {
+              headers: ['File', 'Status / submission action'],
+              rows: [
+                ['STL', <a href="https://drive.google.com/file/d/1JRfg-cr9_1sBAEX1H8iVHGfH0QrWs7EU/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Available - View File</a>],
+                ['G-code / printer file', <a href="https://drive.google.com/file/d/1sjrY0DZgU_r2zubQ2CxO9Y4SI1yOOri_/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Available if exported/saved - View File</a>],
+              ],
+            },
+          }
+        ]
       },
       {
-        paragraphs: ['Typical workflow:'],
-        flow: ['3D Model', 'STL File', 'Slicing', 'G-code', '3D Printer', 'Layer-by-Layer Printing', 'Final Object'],
-        photos: [{ src: img('week6-3dp-printer.jpg'), alt: 'Bambu Lab 3D printer at FORGE' }],
-      },
-      {
-        heading: 'Stages of 3D Printing',
-        photos: [{ src: img('week6-3dp-stages.png'), alt: 'Stages of 3D printing: concept, 3D CAD design, STL file, G-code, printing, post-processing', wide: true }],
-      },
-      {
-        heading: 'Types of 3D Printing',
-        photos: [{ src: img('week6-3dp-types.jpeg'), alt: 'Types of 3D printing: FDM, SLA, DLP, SLS', wide: true }],
-      },
-      {
-        bullets: [
-          { text: 'FDM — Fused Deposition Modeling', subBullets: ['A thermoplastic filament is melted and deposited through a nozzle layer by layer. Common materials include PLA, ABS, and PETG.'] },
-          { text: 'SLA — Stereolithography', subBullets: ['Liquid photopolymer resin is selectively cured using a light source. Its key advantage is high detail and smooth surface finish.'] },
-          { text: 'SLS — Selective Laser Sintering', subBullets: ['A laser selectively fuses powdered material to create the object. A key advantage is that complex geometries can be produced without traditional support structures.'] },
-          { text: 'DLP — Digital Light Processing', subBullets: ['A projected light source cures an entire layer of resin simultaneously.'] },
-        ],
-      },
-      {
-        heading: 'Manufacturing Process of 3D Printing',
-        paragraphs: ['3D printing is an additive manufacturing process.'],
-        photos: [{ src: img('week6-3dp-process.png'), alt: 'Manufacturing process of 3D printing: digital design, layer slicing, material deposition, layer-by-layer construction, finished product', wide: true }],
-      },
-      {
-        paragraphs: [
-          'In FDM printing, the filament is heated until it becomes sufficiently soft and is extruded through a nozzle. The printer deposits the material along the paths defined by the G-code. Once one layer is completed, the print head or build platform moves to the next layer.',
-        ],
-      },
-      {
-        heading: 'Advantages & Disadvantages of 3D Printing',
-        table: {
-          headers: ['Advantages', 'Disadvantages'],
-          rows: [
-            ['Enables rapid prototyping', 'Generally slower than mass-production methods'],
-            ['Can produce complex geometries', 'Surface finish may require post-processing'],
-            ['Supports customized designs', 'Material selection depends on the printer'],
-            ['Produces less material waste', 'Parts can have weaker layer-to-layer strength'],
-            ['Easy to modify and reproduce designs', 'Large objects may require long printing times'],
-            ['Suitable for small-batch production', 'Printer and material costs can be high'],
-            ['Allows physical testing of digital designs', 'Print quality depends heavily on settings and calibration'],
-          ],
-        },
-      },
-      {
-        heading: 'Limitations of 3D Printing',
-        table: {
-          headers: ['Limitation', 'Description'],
-          rows: [
-            ['Build volume', 'The printer limits the maximum size of the object.'],
-            ['Printing orientation', 'Orientation affects strength, supports, and print quality.'],
-            ['Overhangs', 'Some geometries require support structures.'],
-            ['Layer lines', 'Visible layers may affect surface finish.'],
-            ['Material limitations', 'Different printers support different materials.'],
-            ['Printing time', 'Complex or large models can take several hours.'],
-          ],
-        },
-      },
-      {
-        heading: 'My 3D Printing Work',
-        paragraphs: ['As part of the practical activity, I worked through the complete preparation process for a 3D print.'],
-      },
-      {
-        heading: 'Step 1 — Obtaining the STL File',
-        level: 3,
-        paragraphs: ['I first downloaded the required STL file, which contained the geometry of the object to be printed.'],
-      },
-      {
-        heading: 'Step 2 — Importing into Bambu Studio',
-        level: 3,
-        paragraphs: ['I opened the model in Bambu Studio, the slicing software used to prepare the model for printing.'],
-        models: [{ src: img('week6-3d-model.glb'), alt: 'Interactive 3D model of my print' }],
-      },
-      {
-        heading: 'Step 3 — Model Preparation',
-        level: 3,
-        paragraphs: ['I positioned the model on the virtual build plate and inspected its orientation.'],
-      },
-      {
-        heading: 'Step 4 — Adding Supports',
-        level: 3,
-        paragraphs: ['I identified areas where the geometry required additional support and added support structures. Supports prevent unsupported sections and overhangs from collapsing during printing.'],
-      },
-      {
-        heading: 'Step 5 — Slicing',
-        level: 3,
-        paragraphs: ['I then sliced the model into individual layers. The software generated the toolpaths required by the printer. This allowed me to preview how the printer would construct the object layer by layer before sending it for printing.'],
-      },
-      {
-        heading: 'Learning Outcome',
-        level: 3,
-        paragraphs: ['Through this activity, I understood the complete workflow of digital 3D model → STL → slicing → supports → printer-ready file, and how design orientation and slicing parameters affect the final physical output.'],
-        photos: [{ src: img('week6-3dp-bambu-studio.jpeg'), alt: 'Model prepared on the build plate in Bambu Studio', wide: true }],
-        
-      },
+        id: 'laser-cutting',
+        label: 'Laser Cutting',
+        sections: [
+          {
+            paragraphs: [
+              'Week 6 introduced me to digital fabrication, particularly laser cutting. I learned how a digital design can be converted into a physical object using computer-controlled manufacturing processes.',
+              'The week focused on understanding the complete workflow — from preparing a digital model to configuring the manufacturing machine and producing the final physical object.',
+            ],
+          },
+          { heading: 'What is Laser Cutting?', level: 1 },
+          {
+            paragraphs: [
+              'Laser cutting is a digital manufacturing process that uses a focused laser beam to cut, engrave, or mark materials according to a digital design.',
+              'The laser concentrates energy onto a small area of the material. Depending on the required operation and settings, the material can be melted, burned, vaporized, or removed.',
+            ],
+            photos: [{ src: img('laser-cutting-how-it-works.jpg'), alt: 'Laser Cutting: How It Works diagram', wide: true }]
+          },
+          {
+            heading: 'Stages of Laser Cutting',
+            table: {
+              headers: ['Stage', 'Description'],
+              rows: [
+                ['1. Design Creation', 'The required design is created or selected using a suitable graphics or CAD application.'],
+                ['2. File Conversion', 'The design is converted into a machine-compatible vector format such as DXF. Vector geometry is useful because the laser follows defined paths rather than treating the design as a normal image.'],
+                ['3. Import into Laser Software', 'The DXF file is imported into software such as RDWorks, where the design can be prepared for the laser cutting machine.'],
+                ['4. Layer Assignment', 'Different elements of the design can be assigned different operations, such as cut and scan/engrave. Different layers can also be configured with appropriate machine parameters.'],
+                ['5. Machine Configuration', 'The material is positioned on the laser cutting bed, and the required parameters are configured. Important parameters include laser power, speed, cutting/engraving mode, number of passes, and focus.'],
+                ['6. Laser Processing', 'The laser follows the paths specified by the design and performs the selected operation.'],
+                ['7. Final Inspection', 'The completed piece is removed and inspected for cutting accuracy, engraving quality, edge quality, alignment, and overall appearance.'],
+              ],
+            },
+          },
+          {
+            heading: 'Types of Laser Cutting',
+            photos: [{ src: img('types-of-laser-cutting.jpg'), alt: 'Types of Laser Cutting', wide: true }],
+            bullets: [
+              { text: 'CO₂ Laser', subBullets: ['CO₂ lasers are widely used for cutting and engraving materials such as acrylic, wood, plastic, paper, and fabric.'] },
+              { text: 'Fiber Laser', subBullets: ['Fiber lasers are commonly used for processing metals and are widely used in industrial applications.'] },
+              { text: 'Diode Laser', subBullets: ['Diode lasers are generally used for lower-power cutting and engraving applications.'] },
+            ],
+          },
+          {
+            heading: 'Laser Manufacturing Processes',
+            table: {
+              headers: ['Process', 'Description'],
+              rows: [
+                ['Laser Cutting', 'The laser completely penetrates the material along a defined path to separate the material.'],
+                ['Laser Engraving', 'The laser removes or modifies only part of the material surface to create text, patterns, or images.'],
+                ['Laser Marking', 'The surface is altered to create a permanent mark without necessarily removing significant material.'],
+                ['Laser Scanning', 'The laser moves across an area according to a scanning pattern to create an engraved or filled region.'],
+              ],
+            },
+          },
+          {
+            heading: 'Manufacturing Process of Laser Cutting',
+            paragraphs: [
+              'Laser cutting is primarily a subtractive manufacturing process. Unlike additive manufacturing, where material is added layer by layer, laser cutting removes material from a sheet or workpiece to obtain the required shape.',
+            ],
+            flow: ['Digital Vector Design', 'Toolpath Generation', 'Laser Beam', 'Material Removal', 'Final Part'],
+          },
+          {
+            heading: 'Advantages & Disadvantages of Laser Cutting',
+            table: {
+              headers: ['Advantages', 'Disadvantages'],
+              rows: [
+                ['High precision and accuracy', 'Equipment can be expensive'],
+                ['Fast processing for suitable materials', 'Some materials produce smoke or fumes'],
+                ['Can create intricate designs', 'Incorrect settings can cause burning'],
+                ['Minimal physical contact with the material', 'Material thickness affects cutting capability'],
+                ['Easy to control using digital designs', 'Requires proper calibration and focusing'],
+                ['Highly repeatable', 'Requires appropriate safety precautions'],
+                ['Can perform both cutting and engraving', 'Heat can affect the material'],
+              ],
+            },
+          },
+          {
+            heading: 'Limitations of Laser Cutting',
+            table: {
+              headers: ['Limitation', 'Description'],
+              rows: [
+                ['Material thickness', 'Maximum thickness depends on laser power.'],
+                ['Material compatibility', 'Not every material is suitable for laser processing.'],
+                ['Heat effects', 'Heat can cause melting, burning, or discoloration.'],
+                ['Cutting depth', 'Limited by the power and capability of the machine.'],
+                ['3D geometry', 'Conventional laser cutting is primarily suited to flat or sheet materials.'],
+                ['Safety', 'Requires controlled operation and proper ventilation.'],
+              ],
+            },
+          },
 
-      {
-        heading: 'Bambu Lab H2S — Specifications',
-        photos: [
-          { src: img('week6-bambu-h2s-specs.png'), alt: 'Bambu Lab H2S specifications', wide: true },
-          { src: img('week6-bambu-h2s-working.jpg'), alt: 'Operating the Bambu Lab H2S at FORGE' },
-        ],
-      },
-      {
-        heading: 'PLA Filament — Specifications',
-        photos: [
-          { src: img('week6-pla-filament-specs.png'), alt: 'PLA filament specifications', wide: true },
-        ],
-      },
+          { heading: 'My Work', level: 1 },
 
-      // ───────────────────────── LASER CUTTING ─────────────────────────
-      { heading: 'Laser Cutting', level: 1 },
-      {
-        heading: 'What is Laser Cutting?',
-        paragraphs: [
-          'Laser cutting is a digital manufacturing process that uses a focused laser beam to cut, engrave, or mark materials according to a digital design.',
-          'The laser concentrates energy onto a small area of the material. Depending on the required operation and settings, the material can be melted, burned, vaporized, or removed.',
-        ],
-      },
-      {
-        paragraphs: ['Typical workflow:'],
-        flow: ['Digital Design', 'DXF File', 'RDWorks', 'Layer Configuration', 'Machine Setup', 'Laser Processing', 'Finished Model'],
-      },
-      {
-        heading: 'Stages of Laser Cutting',
-        table: {
-          headers: ['Stage', 'Description'],
-          rows: [
-            ['1. Design Creation', 'The required design is created or selected using a suitable graphics or CAD application.'],
-            ['2. File Conversion', 'The design is converted into a machine-compatible vector format such as DXF. Vector geometry is useful because the laser follows defined paths rather than treating the design as a normal image.'],
-            ['3. Import into Laser Software', 'The DXF file is imported into software such as RDWorks, where the design can be prepared for the laser cutting machine.'],
-            ['4. Layer Assignment', 'Different elements of the design can be assigned different operations, such as cut and scan/engrave. Different layers can also be configured with appropriate machine parameters.'],
-            ['5. Machine Configuration', 'The material is positioned on the laser cutting bed, and the required parameters are configured. Important parameters include laser power, speed, cutting/engraving mode, number of passes, and focus.'],
-            ['6. Laser Processing', 'The laser follows the paths specified by the design and performs the selected operation.'],
-            ['7. Final Inspection', 'The completed piece is removed and inspected for cutting accuracy, engraving quality, edge quality, alignment, and overall appearance.'],
-          ],
-        },
-      },
-      {
-        heading: 'Types of Laser Cutting',
-        bullets: [
-          { text: 'CO₂ Laser', subBullets: ['CO₂ lasers are widely used for cutting and engraving materials such as acrylic, wood, plastic, paper, and fabric.'] },
-          { text: 'Fiber Laser', subBullets: ['Fiber lasers are commonly used for processing metals and are widely used in industrial applications.'] },
-          { text: 'Diode Laser', subBullets: ['Diode lasers are generally used for lower-power cutting and engraving applications.'] },
-        ],
-      },
-      {
-        heading: 'Laser Manufacturing Processes',
-        table: {
-          headers: ['Process', 'Description'],
-          rows: [
-            ['Laser Cutting', 'The laser completely penetrates the material along a defined path to separate the material.'],
-            ['Laser Engraving', 'The laser removes or modifies only part of the material surface to create text, patterns, or images.'],
-            ['Laser Marking', 'The surface is altered to create a permanent mark without necessarily removing significant material.'],
-            ['Laser Scanning', 'The laser moves across an area according to a scanning pattern to create an engraved or filled region.'],
-          ],
-        },
-      },
-      {
-        heading: 'Manufacturing Process of Laser Cutting',
-        paragraphs: ['Laser cutting is primarily a subtractive manufacturing process.'],
-        flow: ['Digital Vector Design', 'Toolpath Generation', 'Laser Beam', 'Material Removal', 'Final Part'],
-      },
-      {
-        paragraphs: [
-          'Unlike additive manufacturing, where material is added layer by layer, laser cutting removes material from a sheet or workpiece to obtain the required shape.',
-        ],
-      },
-      {
-        heading: 'Advantages & Disadvantages of Laser Cutting',
-        table: {
-          headers: ['Advantages', 'Disadvantages'],
-          rows: [
-            ['High precision and accuracy', 'Equipment can be expensive'],
-            ['Fast processing for suitable materials', 'Some materials produce smoke or fumes'],
-            ['Can create intricate designs', 'Incorrect settings can cause burning'],
-            ['Minimal physical contact with the material', 'Material thickness affects cutting capability'],
-            ['Easy to control using digital designs', 'Requires proper calibration and focusing'],
-            ['Highly repeatable', 'Requires appropriate safety precautions'],
-            ['Can perform both cutting and engraving', 'Heat can affect the material'],
-          ],
-        },
-      },
-      {
-        heading: 'Limitations of Laser Cutting',
-        table: {
-          headers: ['Limitation', 'Description'],
-          rows: [
-            ['Material thickness', 'Maximum thickness depends on laser power.'],
-            ['Material compatibility', 'Not every material is suitable for laser processing.'],
-            ['Heat effects', 'Heat can cause melting, burning, or discoloration.'],
-            ['Cutting depth', 'Limited by the power and capability of the machine.'],
-            ['3D geometry', 'Conventional laser cutting is primarily suited to flat or sheet materials.'],
-            ['Safety', 'Requires controlled operation and proper ventilation.'],
-          ],
-        },
-      },
-      {
-        heading: 'My Laser Cutting Work',
-        paragraphs: ['For the practical activity, I followed the complete workflow of converting a digital design into a physical laser-cut model.'],
-      },
-      {
-        heading: 'Step 1 — Selecting the Design',
-        level: 3,
-        paragraphs: ['I selected an image/design that I wanted to convert into a physical model.'],
-      },
-      {
-        heading: 'Step 2 — Converting the Design to DXF',
-        level: 3,
-        paragraphs: ['The design was converted into the DXF format, which represents the geometry as vector-based information suitable for further processing.'],
-      },
-      {
-        heading: 'Step 3 — Importing into RDWorks',
-        level: 3,
-        paragraphs: ['I opened the DXF file in RDWorks, the software used to prepare the design for the laser cutting machine. I inspected the imported geometry and organized the different elements into appropriate layers.'],
-      },
-      {
-        heading: 'Step 4 — Configuring Operations',
-        level: 3,
-        paragraphs: ['I explored the different operations available in RDWorks and assigned the required layers for cutting and scanning/engraving. This helped me understand how the same design can contain different manufacturing operations.'],
-      },
-      {
-        heading: 'Step 5 — Exploring Machine Parameters',
-        level: 3,
-        paragraphs: ['I explored how parameters such as speed and power affect the final result. For example, changing the speed and power can influence the depth of engraving, cutting ability, and the appearance of the material.'],
-      },
-      {
-        heading: 'Step 6 — Laser Cutting',
-        level: 3,
-        paragraphs: ['After preparing the design and configuring the required settings, I sent the design to the laser cutting machine and produced my physical model.'],
-      },
-      {
-        heading: 'Learning Outcome',
-        level: 3,
-        paragraphs: ['This activity gave me hands-on experience with the complete digital fabrication workflow:'],
-        flow: ['Design', 'DXF Conversion', 'RDWorks', 'Layer Configuration', 'Machine Settings', 'Laser Processing', 'Physical Model'],
-      },
-      {
-        paragraphs: [
-          'I also learned that machine parameters are critical to the quality of the final product. The correct combination of speed, power, focus, and operation type is necessary to achieve a clean and accurate result.',
-        ],
-        photos: [
-          { src: img('week6-laser-cut-model.jpg'), alt: 'Laser-cut and engraved model' },
-          { src: img('week6-laser-machine.jpg'), alt: 'Working at the laser cutting machine' },
-        ],
-      },
-
-      // ───────────────────────── COMPARISON ─────────────────────────
-      {
-        heading: '3D Printing vs Laser Cutting',
-        level: 1,
-        table: {
-          headers: ['Feature', '3D Printing', 'Laser Cutting'],
-          rows: [
-            ['Manufacturing type', 'Additive', 'Subtractive'],
-            ['Input', '3D model', '2D vector design'],
-            ['Common file', 'STL', 'DXF'],
-            ['Basic process', 'Builds material layer by layer', 'Removes material along defined paths'],
-            ['Typical software', 'Bambu Studio', 'RDWorks'],
-            ['Main operations', 'Printing', 'Cutting, scanning, engraving'],
-            ['Suitable for', '3D objects and complex geometries', 'Flat parts, panels, patterns, and engravings'],
-            ['Material usage', 'Adds material to create the object', 'Removes material from a sheet'],
-            ['Major limitation', 'Printing time and build volume', 'Material thickness and laser capability'],
-          ],
-        },
-      },
-      {
-        heading: 'Overall Learning',
-        level: 1,
-        paragraphs: [
-          'Week 6 helped me understand the difference between additive and subtractive manufacturing through hands-on experience. I learned how a digital design can be transformed into a physical product using two different fabrication approaches, while also understanding the importance of file formats, machine parameters, toolpaths, supports, and process planning.',
-        ],
-      },
-    ],
+          {
+            heading: '1. Lab Safety & Safety Rules',
+            level: 2,
+            paragraphs: [
+              'The laser cutting activity was carried out using the safety rules displayed in the lab. The safety procedure focused on preventing laser exposure, fire risk, toxic fumes, electrical hazards, and damage to the machine.',
+            ],
+            table: {
+              headers: ['Safety Area', 'Precaution Followed / Documented'],
+              rows: [
+                ['Laser safety', 'Safety goggles were specified by the lab rules. The machine door was kept closed while the laser cutter was operating, and the cutter was not left unattended.'],
+                ['Exhaust system', 'The exhaust/ventilation system was used to remove smoke and fumes generated during cutting.'],
+                ['Chiller', 'The chiller was switched on while the machine was running, as specified by the lab safety instructions.'],
+                ['Earthing', 'The machine was operated with the laboratory\'s electrical safety/earthing arrangement.'],
+                ['Air assist', 'Air assist/blowing was used as part of the laser cutting process to support cutting and reduce heat/smoke around the cut.'],
+                ['General machine safety', 'Correct material settings were used, the machine door was closed during operation, unauthorized materials were avoided, the machine was not switched off directly while running, and the work area was cleaned after use.'],
+              ],
+            },
+            photos: [{ src: img('Picture1.png'), alt: 'Laser cutter safety rules displayed in the fabrication laboratory.' }],
+          },
+          {
+            heading: '2. Machine Details',
+            level: 2,
+            paragraphs: ['The machine used for the activity was a 1490 CO₂ laser cutter. The specifications below were taken from the machine information displayed in the laboratory.'],
+            table: {
+              headers: ['Specification', 'Recorded value'],
+              rows: [
+                ['Make/Facility', 'FORGE HW Junction DFab #2'],
+                ['Model', '1490 CO₂ Laser'],
+                ['Working / bed area', '1300 × 900 mm'],
+                ['Laser tube power', '150 W'],
+                ['Machine power', '1000 W'],
+                ['Maximum listed cutting speed', '25 m/min'],
+                ['Maximum listed engraving speed', '55 m/min'],
+                ['Listed accuracy', '0.1 mm'],
+                ['Working temperature', '0–40 °C'],
+                ['Blowing system', 'Lower blowing system'],
+                ['Control software', 'RDWorks'],
+              ],
+            },
+            photos: [{ src: img('Picture2.png'), alt: 'Laser cutting machine and its displayed specifications.' }],
+          },
+          {
+            heading: '3. Materials Used',
+            level: 2,
+            table: {
+              headers: ['Parameter', 'Details'],
+              rows: [
+                ['Material type', 'Black acrylic'],
+                ['Thickness', '2.0mm'],
+                ['Source', 'Fabrication laboratory material'],
+                ['Application', 'Laser cutting/scanning of a Spider-Man logo and the word "SPIDERMAN"'],
+              ],
+            },
+          },
+          {
+            heading: '4. Selected Design/Image',
+            level: 2,
+            paragraphs: [
+              'A Spider-Man themed design was selected for the laser cutting activity. The source image was obtained from Pinterest. The design contained a Spider-Man logo along with the word "SPIDERMAN". It was selected because I am ardent fan of Spiderman. Also, the combination of an outline-based logo and text provided a suitable design for practising both vector preparation and laser processing.',
+            ],
+            photos: [{ src: img('Picture3.jpg'), alt: 'Spider-Man reference design selected for the laser cutting activity.' }],
+          },
+          {
+            heading: '5. Image-to-DXF Conversion',
+            level: 2,
+            paragraphs: [
+              'The selected Spider-Man image was converted into DXF format using the online conversion tool Convertio. The converted DXF was then opened in RDWorks for preparation and laser processing.',
+            ],
+            flow: [
+              'Select image from Pinterest',
+              'Upload to Convertio',
+              'Select DXF output',
+              'Download DXF',
+              'Open in RDWorks',
+              'Check geometry',
+            ],
+            photos: [
+              { src: img('Picture4.png'), alt: 'Image-to-DXF conversion using Convertio.' },
+            ],
+          },
+          {
+            heading: '6. File Preparation',
+            level: 2,
+            paragraphs: [
+              'After conversion, the DXF design was opened in RDWorks and prepared for the laser cutter. The imported geometry was checked before assigning the processing layers. The design was also saved as an AI file for source-file submission.',
+            ],
+            bullets: [
+              'Imported the converted DXF into RDWorks.',
+              'Checked the imported Spider-Man logo and text geometry.',
+              'Prepared the geometry for the required laser operations (vector cleaning, scaling, closed paths).',
+              'Assigned the design to the required RDWorks processing layers.',
+              'Used black for the cutting operation and blue for the scanning/engraving operation.',
+              'Saved the prepared design as an AI file in addition to retaining the DXF source.',
+            ],
+            photos: [
+              { src: img('Picture5.png'), alt: 'Converted DXF design imported into RDWorks.' },
+              { src: img('Picture6.png'), alt: 'Prepared Spider-Man geometry before final machine processing.' },
+            ],
+          },
+          {
+            heading: '7. Nesting & Layout in RDWorks',
+            level: 2,
+            paragraphs: [
+              'The final design was arranged in RDWorks as a Spider-Man logo above the "SPIDERMAN" text. The design occupied approximately 508.4 × 432.0 mm in the RDWorks preview. The preview indicated a total estimated processing time of approximately 41 min 18 s for the displayed job.',
+            ],
+            table: {
+              headers: ['RDWorks item', 'Recorded information'],
+              rows: [
+                ['Design placement', 'Spider-Man logo positioned above the "SPIDERMAN" text'],
+                ['Cutting layer', 'Black'],
+                ['Scanning/engraving layer', 'Blue'],
+                ['Material layout', 'Black acrylic sheet; final sheet dimensions not recorded'],
+                ['Previewed design size', '508.4 × 432.0 mm'],
+                ['Previewed total time', '41 min 18.073 s'],
+                ['Previewed light time', '14 min 39.418 s'],
+              ],
+            },
+            photos: [{ src: img('Picture7.png'), alt: 'Final Spider-Man design layout and processing preview in RDWorks.' }],
+          },
+          {
+            heading: '8. Final Machine Settings',
+            level: 2,
+            table: {
+              headers: ['Material', 'Thickness', 'Operation', 'Speed', 'Minimum Power', 'Maximum Power', 'Passes', 'Frequency'],
+              rows: [
+                ['Black acrylic', '2.0mm', 'Laser Cut', '100 mm/s', '30%', '30%', '1', '20,000 Hz'],
+                ['Black acrylic', '2.0mm', 'Laser Scan', '100 mm/s', '30%', '30%', '1', '20,000 Hz'],
+              ],
+            },
+          },
+          {
+            heading: '9. Cutting Process',
+            level: 2,
+            paragraphs: [
+              'The prepared file was loaded into RDWorks and the laser cutter was operated with the required safety systems active. The black acrylic sheet was positioned on the machine bed, the design was processed, and the Spider-Man logo and text were produced.',
+            ],
+            flow: [
+              'Position acrylic sheet',
+              'Load design in RDWorks',
+              'Verify position & layers',
+              'Check safety systems',
+              'Run operation',
+              'Inspect & remove piece',
+            ],
+            photos: [{ src: img('Picture8.png'), alt: 'Laser Cutting process' }],
+          },
+          {
+            heading: '10. Final Result – Hero Shot',
+            level: 2,
+            paragraphs: ['The final result consisted of the Spider-Man logo and the "SPIDERMAN" text processed on black acrylic.'],
+            photos: [{ src: img('Picture9.jpg'), alt: 'Final Spider-Man laser-cut/scanned result on black acrylic.' }],
+          },
+          {
+            heading: '11. Problems Faced & Solutions',
+            level: 2,
+            table: {
+              headers: ['Problem Faced', 'Cause', 'Solution', 'Outcome'],
+              rows: [
+                ['It was initially unclear which parts of the design should be scanned and which should be cut.', 'The imported design contained both the Spider-Man logo outline and the "SPIDERMAN" artwork.', 'The geometry was reviewed in RDWorks and assigned to separate layers, with black for cutting and blue for scanning.', 'The design was correctly prepared with separate cutting and scanning operations.'],
+              ],
+            },
+          },
+          {
+            heading: '12. Reflection',
+            level: 2,
+            bullets: [
+              'This activity helped me understand the complete workflow of laser-based rapid prototyping, from selecting a design and converting it into a usable vector format to preparing the geometry in RDWorks and assigning different processing operations.',
+              'I learned that a design must be prepared carefully before it can be sent to a laser cutter, and that the processing parameters and material properties directly affect the final result.',
+              'I also gained practical experience with RDWorks, DXF files, layer-based processing and safe machine operation.',
+              'One of the main challenges was converting a reference image into a usable DXF and preparing it correctly for the machine.',
+              'In future work, I would record the exact material thickness and every RDWorks parameter during the session so that the process can be reproduced more precisely.',
+            ],
+            photos: [{ src: img('Picture10.jpg'), alt: 'Observing the laser cutting process' }],
+          },
+          {
+            heading: '13. Source Files',
+            level: 2,
+            table: {
+              headers: ['File', 'Status / submission action'],
+              rows: [
+                ['DXF', <a href="https://drive.google.com/file/d/1-aSaQJBCht8OvYjGLJIwZ6QCWIgQbwYh/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Available - View File</a>],
+                ['AI', <a href="https://drive.google.com/file/d/1pnMA8I9rPkFb0zNnnteKfVwTXITu4YuM/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Available - View File</a>],
+              ],
+            },
+          }
+        ]
+      }
+    ]
   },
 };
 
@@ -702,20 +907,25 @@ function PhotoRow({ photos, className = '' }: { photos: Photo[]; className?: str
 function InlinePhotos({ photos }: { photos: Photo[] }) {
   if (photos.length === 0) return null;
   return (
-    <div className="flex flex-wrap items-start gap-4 pt-1">
+    <div className="flex flex-wrap items-center justify-center gap-6 pt-4 w-full">
       {photos.map((photo) => (
         <figure
           key={photo.src}
-          className={`rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20 ${
-            photo.wide ? 'w-full max-w-3xl' : 'max-w-full'
+          className={`flex flex-col items-center rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/20 mx-auto ${
+            photo.wide ? 'w-full max-w-4xl' : 'max-w-full'
           }`}
         >
           <img
             src={photo.src}
             alt={photo.alt}
             loading="lazy"
-            className={photo.wide ? 'w-full h-auto' : 'h-56 sm:h-72 w-auto max-w-full object-contain'}
+            className={photo.wide ? 'w-full h-auto' : 'h-56 sm:h-80 w-auto max-w-full object-contain'}
           />
+          {photo.alt && (
+            <figcaption className="w-full px-4 py-3 text-center text-sm text-gray-300 font-light border-t border-white/5 bg-black/40">
+              {photo.alt}
+            </figcaption>
+          )}
         </figure>
       ))}
     </div>
@@ -774,12 +984,12 @@ function FlowChain({ steps }: { steps: string[] }) {
 
 function DataTable({ table }: { table: WeekTable }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/10">
+    <div className="overflow-x-auto rounded-xl border border-purple-500/40 shadow-[0_0_25px_rgba(168,85,247,0.2)] bg-slate-900/60 backdrop-blur-md mb-6 mx-auto w-full">
       <table className="w-full text-left text-sm">
-        <thead className="bg-white/5">
+        <thead className="bg-purple-500/20 text-purple-100 border-b border-purple-500/30">
           <tr>
             {table.headers.map((h) => (
-              <th key={h} className="px-4 py-3 font-semibold text-white whitespace-nowrap">
+              <th key={h} className="px-5 py-4 font-bold tracking-wide whitespace-nowrap text-xs uppercase">
                 {h}
               </th>
             ))}
@@ -787,11 +997,11 @@ function DataTable({ table }: { table: WeekTable }) {
         </thead>
         <tbody className="divide-y divide-white/5">
           {table.rows.map((row, r) => (
-            <tr key={r} className="hover:bg-white/5 transition-colors">
+            <tr key={r} className="hover:bg-purple-500/10 transition-colors">
               {row.map((cell, c) => (
                 <td
                   key={c}
-                  className={`px-4 py-3 align-top leading-relaxed font-light ${c === 0 ? 'text-gray-200 font-normal' : 'text-gray-300'}`}
+                  className={`px-5 py-4 align-top leading-relaxed font-light ${c === 0 ? 'text-purple-200 font-medium' : 'text-gray-300'}`}
                 >
                   {cell}
                 </td>
@@ -819,6 +1029,8 @@ function SectionHeading({ text, level = 2 }: { text: string; level?: 1 | 2 | 3 }
 }
 
 function WeekDetailPanel({ week, detail, onClose }: { week: number; detail: WeekDetail; onClose: () => void }) {
+  const [activeTabId, setActiveTabId] = useState<string>(detail.tabs ? detail.tabs[0].id : '');
+
   return (
     <div className="p-6 sm:p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm animate-fadeInUp">
       <div className="flex items-start justify-between gap-4 mb-6">
@@ -838,8 +1050,26 @@ function WeekDetailPanel({ week, detail, onClose }: { week: number; detail: Week
       {/* Top photos (weeks 0-3). Weeks 4 & 6 use inline photos inside sections instead. */}
       {detail.photos.length > 0 && <PhotoRow photos={detail.photos} className="mb-8" />}
 
+      {detail.tabs && (
+        <div className="flex flex-wrap gap-3 mb-6 border-b border-white/10 pb-4">
+          {detail.tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTabId(tab.id)}
+              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                activeTabId === tab.id
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] translate-y-[-2px]'
+                  : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="space-y-6">
-        {detail.sections.map((section, idx) => (
+        {(detail.tabs ? (detail.tabs.find(t => t.id === activeTabId)?.sections || []) : (detail.sections || [])).map((section, idx) => (
           <div key={idx} className="space-y-3">
             {section.heading && <SectionHeading text={section.heading} level={section.level} />}
 
