@@ -360,7 +360,58 @@ const weekDetails: Record<number, WeekDetail> = {
       },
     ],
   },
-6: {
+ 5: {
+    subtitle: 'PocketWise – Student Finance App',
+    photos: [{ src: img('pocketwise-logo.svg'), alt: 'PocketWise logo' }],
+    sections: [
+      {
+        heading: 'Project Overview',
+        paragraphs: [
+          'PocketWise is a UI/UX design concept aimed at helping college students track expenses, understand spending patterns, manage budgets, and develop better financial habits.'
+        ]
+      },
+      {
+        heading: 'Key Research Insights',
+        table: {
+          headers: ['Finding', 'Survey Insight'],
+          rows: [
+            ['Lack of structured tracking', '54.5% track spending mentally or not at all'],
+            ['Running out of money', '75.6% run short of money before their next allowance'],
+            ['Budgeting difficulty', '70.7% have no working budget'],
+            ['Interest in a finance tool', '96.7% would try a student-focused money tool'],
+            ['Main spending area', '72.4% of spending goes toward food and daily expenses'],
+            ['Most requested feature', '32.5% preferred automatic expense tracking'],
+            ['Main source of money', '88.6% depend on family/parents']
+          ]
+        }
+      },
+      {
+        heading: 'Design Process',
+        flow: ['Empathize', 'Define', 'Ideate', 'Prototype', 'Test'],
+        bullets: [
+          'User research through a survey of 123 students',
+          'Requirement analysis based on survey insights',
+          'Ideation of features such as automatic expense tracking, budgeting, and savings goals',
+          'High‑fidelity prototypes created in Figma'
+        ]
+      },
+      {
+        heading: 'Core Features',
+        table: {
+          headers: ['Feature', 'Purpose'],
+          rows: [
+            ['Expense Tracking', 'Record and understand daily spending'],
+            ['Expense Categories', 'Identify where money is being spent'],
+            ['Budget Management', 'Set and monitor spending limits'],
+            ['Spending Insights', 'Visualize spending patterns'],
+            ['Savings Goals', 'Encourage students to save toward specific goals'],
+            ['Automatic Tracking', 'Reduce manual entry effort']
+          ]
+        }
+      }
+    ],
+  },
+ 6: {
     subtitle: 'Digital Fabrication — Laser Cutting & 3D Printing',
     photos: [],
     tabs: [
